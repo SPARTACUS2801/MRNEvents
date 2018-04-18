@@ -15,6 +15,41 @@ if(isset($_GET['nichtteilnehmen'])){
 	$query = "DELETE FROM teilnahmen WHERE eventid='$_GET[nichtteilnehmen]' AND userid='$_SESSION[userid])'";
 	mysqli_query($connection, $query);// or die(mysqli_error($connection));
 }
+
+
+
+require('connect.php');
+
+$query = "SELECT * FROM events_test LEFT JOIN teilnahmen ON id = eventid";
+if (isset($_COOKIE["query"])) {
+	$result = mysqli_query($connection, $_COOKIE["query"]) or die(mysqli_error($connection));
+}else{ $result = mysqli_query($connection, $query) or die(mysqli_error($connection)); }
+
+
+$clause = " WHERE ";//Initial clause
+//$sql="SELECT * FROM `girlsStaff`  ";//Query stub
+//	if(isset($_POST['submit'])){
+		if(isset($_POST['kategorie'])){
+				foreach($_POST['kategorie'] as $c){
+						if(!empty($c)){
+								$query .= $clause."`"."kategorie"."` LIKE '%{$c}%'";
+								$clause = " OR ";//Change  to OR after 1st WHERE
+						}
+				}
+				$result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+				setcookie("query", $query, time()+999999);
+
+		}
+		// echo $query; }
+
+
+
+
+
+
+
+
+
 	?>
 	<!DOCTYPE html>
   <html lang="en">
@@ -33,7 +68,7 @@ if(isset($_GET['nichtteilnehmen'])){
     <body>
 
 <header>
-    <?php  include 'navbar.php'; ?>
+<?php  include 'navbar.php';?>
 </header>
 
 <div class="nav-scroller bg-white box-shadow">
@@ -59,14 +94,7 @@ if(isset($_GET['nichtteilnehmen'])){
 					<Button class="btn btn-sm btn-primary btn-block" name"submit" type="submit">Suchen</button>
 				</form>
 
-				<?php
 
-
-				// $bla = "Location: home.php?kategorie=";
-				// $bla .= $parameter;
-				// header($bla);
-
-				 ?>
 				<!--
         <a class="nav-link active" href="#">Welche Kategorien interessieren sie? </a>
         <a class="nav-link" href="#">
@@ -151,24 +179,6 @@ $parameter = "hihi";
 							if (isset($_POST['familie'])) $parameter .= "familie";
 echo $parameter; echo $row['kategorie'];
 }*/
-              require('connect.php');
-              $query = "SELECT * FROM events_test LEFT JOIN teilnahmen ON id = eventid";
-
-							$clause = " WHERE ";//Initial clause
-							//$sql="SELECT * FROM `girlsStaff`  ";//Query stub
-						//	if(isset($_POST['submit'])){
-							    if(isset($_POST['kategorie'])){
-							        foreach($_POST['kategorie'] as $c){
-							            if(!empty($c)){
-							                $query .= $clause."`"."kategorie"."` LIKE '%{$c}%'";
-							                $clause = " OR ";//Change  to OR after 1st WHERE
-							            }
-							        }
-							    }
-									// echo $query; }
-
-
-              $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 
               while ($row = $result->fetch_array(MYSQLI_ASSOC))
               {
