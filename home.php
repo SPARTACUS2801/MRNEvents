@@ -38,19 +38,49 @@ if(isset($_GET['nichtteilnehmen'])){
 
 <div class="nav-scroller bg-white box-shadow">
       <nav class="nav nav-underline">
+
+				<form method="POST">
+					<div class="form-check form-check-inline">
+	  				<input class="form-check-input" type="checkbox" name="kategorie[]" id="party" value="party">
+	  				<label class="form-check-label" for="party" id="partylabel" >Party</label>
+					</div>
+					<div class="form-check form-check-inline">
+	  				<input class="form-check-input" type="checkbox" name="kategorie[]" id="kunstkultur" value="kultur">
+	  				<label class="form-check-label" for="kunstkultur" id="kunstkulturlabel" >Kunst & Kultur</label>
+					</div>
+					<div class="form-check form-check-inline">
+	  				<input class="form-check-input" type="checkbox" name="kategorie[]" id="sport" value="sport">
+	  				<label class="form-check-label" for="sport" id="sportlabel" >Sport</label>
+					</div>
+					<div class="form-check form-check-inline">
+	  				<input class="form-check-input" type="checkbox" name="kategorie[]" id="familie" value="familie">
+	  				<label class="form-check-label" for="familie" id="familielabel" >Familie</label>
+					</div>
+					<Button class="btn btn-sm btn-primary btn-block" name"submit" type="submit">Suchen</button>
+				</form>
+
+				<?php
+
+
+				// $bla = "Location: home.php?kategorie=";
+				// $bla .= $parameter;
+				// header($bla);
+
+				 ?>
+				<!--
         <a class="nav-link active" href="#">Welche Kategorien interessieren sie? </a>
-      <!--  <a class="nav-link" href="#">
+        <a class="nav-link" href="#">
           Friends
           <span class="badge badge-pill bg-light align-text-bottom">27</span>
-        </a> -->
+        </a>
 
         <a class="nav-link" href="home.php">Alle Kategorien</a>
-        <a class="nav-link" href="?kategorie=Party">Party</a>
+        <a class="nav-link" href="?kategorie=Familie">Party</a>
         <a class="nav-link" href="?kategorie=Kultur">Kultur</a>
         <a class="nav-link" href="#">Link</a>
         <a class="nav-link" href="#">Link</a>
         <a class="nav-link" href="#">Link</a>
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a> -->
       </nav>
     </div>
 
@@ -111,13 +141,43 @@ if(isset($_GET['nichtteilnehmen'])){
 
           <div class="row" id="meinerow">
             <?php
+						/*
+$parameter = "hihi";
+						if (isset($_POST['submit'])||isset($_POST['party']) || isset($_POST['kunstkultur'])||isset($_POST['sport'])||isset($_POST['familie'])){
+							//header(register.php);
+						if (isset($_POST['party'])) $parameter .= "party";
+							if (isset($_POST['kunstkultur'])) $parameter .= "kunstkultur";
+							if (isset($_POST['sport'])) $parameter .= "sport";
+							if (isset($_POST['familie'])) $parameter .= "familie";
+echo $parameter; echo $row['kategorie'];
+}*/
               require('connect.php');
               $query = "SELECT * FROM events_test LEFT JOIN teilnahmen ON id = eventid";
+
+							$clause = " WHERE ";//Initial clause
+							//$sql="SELECT * FROM `girlsStaff`  ";//Query stub
+						//	if(isset($_POST['submit'])){
+							    if(isset($_POST['kategorie'])){
+							        foreach($_POST['kategorie'] as $c){
+							            if(!empty($c)){
+							                $query .= $clause."`"."kategorie"."` LIKE '%{$c}%'";
+							                $clause = " OR ";//Change  to OR after 1st WHERE
+							            }
+							        }
+							    }
+									// echo $query; }
+
+
               $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 
               while ($row = $result->fetch_array(MYSQLI_ASSOC))
               {
-                if (!isset($_GET['kategorie'])||$row["kategorie"]===$_GET['kategorie']) {
+
+
+
+
+                //if (!isset($_GET['kategorie'])||$row["kategorie"]===$_GET['kategorie']) {
+							//	if($parameter===""||strpos($parameter, $row['kategorie']) != false){
 
 
                 // strip tags to avoid breaking any html
@@ -151,13 +211,13 @@ if(isset($_GET['nichtteilnehmen'])){
 
 
                 </script><?php
-              }
+            //  }
               }
 
              ?>
 						 <div class="collapse" id="collapseExample">
   					 	<div class="card mb-16 box-shadow" style="width: 100%;">
-    						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+    						<?php echo $parameter; echo "test"; ?> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
   						</div>
 							</div>
 					</div>
