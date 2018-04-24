@@ -107,9 +107,9 @@ if (array_key_exists('img',$_FILES)) {
 		
         <select required id="category" name="category">
 		<option selected disabled hidden value="">Kategorie auswählen</option>
-		<option value="party">Party</option>
-		<option value="kultur">Kultur</option>
-		<option value="sport">Sport</option>
+		<option value="Party">Party</option>
+		<option value="Kultur">Kultur</option>
+		<option value="Sport">Sport</option>
 		</select><br><br>
 		
 		<label for="datum"> Von</label>
