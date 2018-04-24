@@ -25,6 +25,9 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Kategorie</a>
       </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="eventbeantragen.php">Event beantragen</a>
+      </li>
 
 
     </ul>

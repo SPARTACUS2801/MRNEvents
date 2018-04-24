@@ -6,7 +6,11 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 $titel = $_POST['titel'];
 
-$text = $_POST['text'];
+$text = $_POST['beschreibung'];
+
+$kategorie = $_POST['category'];
+		
+$datum = $_POST['datumv'];
 
 $bild = "test";
 // Check if image file is a actual image or fake image
@@ -21,10 +25,10 @@ if(isset($_POST["submit"])) {
     }
 }
 // Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-}
+//if (file_exists($target_file)) {
+//    echo "Sorry, file already exists.";
+//    $uploadOk = 0;
+//}
 // Check file size
 if ($_FILES["fileToUpload"]["size"] > 500000) {
     echo "Sorry, your file is too large.";
@@ -42,11 +46,12 @@ if ($uploadOk == 0) {
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-
+        //echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+		echo "<script> alert('Event erfolgreich beantragt!');window.location.href='home.php';</script>";
         $dateiname = basename( $_FILES["fileToUpload"]["name"]);
+
         require('connect.php');
-        $query = "INSERT INTO `events_test` (titel,text,bild) VALUES ('$titel', '$text', '$dateiname')";
+        $query = "INSERT INTO `events_test` (titel,text,bild,datum,kategorie) VALUES ('$titel', '$text', '$dateiname', '$datum', '$kategorie')";
 
         $result = mysqli_query($connection, $query);
     } else {

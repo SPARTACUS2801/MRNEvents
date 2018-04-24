@@ -11,7 +11,11 @@
 if (array_key_exists('img',$_FILES)) {
         $titel = $_POST['titel'];
 
-        $text = $_POST['text'];
+        $text = $_POST['beschreibung'];
+		
+		$kategorie = $_POST['category'];
+		
+		$datum = $_POST['datumv'];
 
         $tmpname = $_FILES['img']['tmp_name'];
 
@@ -21,22 +25,29 @@ if (array_key_exists('img',$_FILES)) {
 
         $data = addslashes(fread($hndFile, filesize($tmpname)));
 
-        $strQuery = "INSERT INTO `images` (imgdata,imgtype) VALUES('$data','$type')";
+       // $strQuery = "INSERT INTO `images` (imgdata,imgtype) VALUES('$data','$type')";
 
       //  if (!mysql_query($strQuery)) die(mysql_error());
 
-        $bild = 1;
+        //$bild = 1;
+		
 
-        $query = "INSERT INTO `events_test` (titel,text,bild) VALUES ('$titel', '$text', '$bild')";
+		
+
+        $query = "INSERT INTO `events_test` (titel,text,bild, datum, kategorie, public) VALUES ('$titel', '$text', '$bild', '$datum', '$kategorie', 0)";
 
         $result = mysqli_query($connection, $query);
 
         if($result){
-            $smsg = "User Created Successfully.";
+            $smsg = "Event beantragt";
         }else{
-            $fmsg ="User Registration Failed";
+            $fmsg ="Event beantragen fehlgeschlagen";
         }
     }
+	
+
+
+
 ?>
 	<!DOCTYPE html>
   <html lang="en">
@@ -62,28 +73,11 @@ if (array_key_exists('img',$_FILES)) {
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="../MRNEvents/home.php">Start <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+              <a class="nav-link" href="home.php">Start <span class="sr-only"></span></a>
 
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Deutsch</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../jsptest/mathe.jsp">Mathe</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../jsptest/englisch.jsp">Englisch</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Musik</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Biologie</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" id="uhrzeitausblenden">Uhr ausblenden</a>
-            </li>
+           
 
           </ul>
           <div class="btn-toolbar form-inline my-2 my-lg-0" id="sidebar">
@@ -104,17 +98,28 @@ if (array_key_exists('img',$_FILES)) {
 
       <?php if(isset($smsg)){ ?><div class="alert alert-success" role="alert"> <?php echo $smsg; ?> </div><?php } ?>	<!--erfolreiche Meldung-->
       <?php if(isset($fmsg)){ ?><div class="alert alert-danger" role="alert"> <?php echo $fmsg; ?> </div><?php } ?>		<!--Meldung bei Misserfolg-->
-        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Beantragen Sie ihr eigenes Event!</h1>
-        <label for="inputTitel" class="sr-only">Titeil</label>
-        <input type="text" name="titel" id="inputTitel" class="form-control" placeholder="Titel" required autofocus>
-        <label for="inputText" class="sr-only">Text</label>
-        <input type="text" name="text" id="inputText" class="form-control" placeholder="Text" required autofocus>
-        <label class="custom-file">
-          <input type="file" name="fileToUpload" id="fileToUpload" class="custom-file-input" >
-         <span class="custom-file-control"></span>
-       </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Registrieren</button>
+        <h1 class="h3 mb-3 font-weight-normal">Beantragen Sie Ihr eigenes Event!</h1>
+        <label for="inputTitel" class="sr-only">Titel</label>
+        <input type="text" name="titel" id="inputTitel" style="width:500px;" class="form-control" placeholder="Titel" required autofocus><br>
+		
+		<label for="beschreibung" class="sr-only">Beschreibung</label>
+		<textarea name="beschreibung" id="beschreibung" cols="100" rows="5" maxlength="500" required placeholder="Beschreibung"></textarea><br><br>
+		
+        <select required id="category" name="category">
+		<option selected disabled hidden value="">Kategorie auswählen</option>
+		<option value="party">Party</option>
+		<option value="kultur">Kultur</option>
+		<option value="sport">Sport</option>
+		</select><br><br>
+		
+		<label for="datum"> Von</label>
+        <input required type="datetime-local" name="datumv" id="datumv"> bis <input type="datetime-local" name="datumb" id="datumb"><br>
+
+		
+        <label for="fileToUpload"> Hochzuladenden Bilder für die Veranstaltung auswählen</label>
+        <input required type="file" accept="image/*" name="fileToUpload" id="fileToUpload" multiple > <br> <br>
+		
+		<input type="submit" value="Event beantragen">
 
 
       </form>
