@@ -6,7 +6,7 @@ if (isset($_POST['email']) and isset($_POST['password'])) {
     //Daten aus Formular in variablen speichern
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $hash = hash('sha1', $password);
+    $hash = hash('sha256', $password);
     //Checken ob es die Daten in der DB gibt
     $query = "SELECT * FROM `users` WHERE email='$email' and password='$hash'";
 
