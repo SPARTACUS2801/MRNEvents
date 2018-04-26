@@ -17,6 +17,7 @@ if (isset($_POST['email']) and isset($_POST['password'])) {
     if ($count == 1) {
         $_SESSION['email'] = $email;
         $_SESSION['userid'] = $benutzer["userid"];
+          $_SESSION['veranstalter'] = $benutzer["veranstalter"];
         $_SESSION['moderator'] = $benutzer['moderator']; // Rolle testen
     } else {
         //Fehlermeldung sollte es sie nicht geben

@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 //if (isset($_SESSION['username'])){
 
 	//header("Location: home.php");}
@@ -65,35 +65,13 @@ if (array_key_exists('img',$_FILES)) {
     <body>
 
 <header>
-      <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-primary"> <!-- Hier beginnt die navbar, die sich auf allen Seiten finden lässt-->
-        <a class="navbar-brand" href="../MRNEvents/home.php">MRNEvents</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation"> <!-- Für bspw. mobiles Endgerät-->
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="home.php">Start <span class="sr-only"></span></a>
-
-            </li>
-
-
-          </ul>
-          <div class="btn-toolbar form-inline my-2 my-lg-0" id="sidebar">
-            <div class="list-group">
-              <a href="../MRNEvents/logout.php" class="btn btn-outline-danger my-2 my-sm-0">Logout</a>
-
-            </div>
-          </div>
-        </div>
-      </nav>
+      <?php include 'navbar.php'; ?>
 </header>
 
 <br> <br>
 <main role="main">
   <div class="container">
-
+<div class="mx-auto" style="width: 60%;">
       <form class="form-signin" method="POST" action="upload.php" enctype="multipart/form-data">
 
       <?php if(isset($smsg)){ ?><div class="alert alert-success" role="alert"> <?php echo $smsg; ?> </div><?php } ?>	<!--erfolreiche Meldung-->
@@ -124,10 +102,6 @@ if (array_key_exists('img',$_FILES)) {
 
       </form>
 
-</div>
-
-
-
 
 
 
@@ -136,6 +110,15 @@ if (array_key_exists('img',$_FILES)) {
   <p class="float-right"><a href="#">Back to top</a></p>
   <p>&copy; 2017-2018 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
 </footer>
+
+</div>
+</div>
+
+
+
+
+
+
 </main>
 
 <!-- Bootstrap core JavaScript

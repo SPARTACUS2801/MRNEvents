@@ -30,7 +30,7 @@ if(isset($_GET['interessieren']) && isset($_GET['teilnehmen'])){
 	require('connect.php');
 	$query = "DELETE FROM interessen (eventid,userid) VALUES (" . $_GET['interessieren'] . "," . $_SESSION['userid'] . ")";
 	mysqli_query($connection, $query);// or die(mysqli_error($connection));
-	
+
 }
 
 
@@ -59,10 +59,10 @@ if (isset($_POST['kategorie'])) {
 	setcookie("query", $query, time() + 999999);
 
 }
-	
+
 	//Buttons anpassen
-	
-	
+
+
 ?>
 
 	<!DOCTYPE html>
@@ -85,37 +85,36 @@ if (isset($_POST['kategorie'])) {
     <?php  include 'navbar.php'; ?>
 </header>
 
-<div class="nav-scroller bg-white box-shadow">
-      <nav class="nav nav-underline">
-        <a class="nav-link active" href="#">Welche Kategorien interessieren sie? </a>
-      <!--  <a class="nav-link" href="#">
-          Friends
-          <span class="badge badge-pill bg-light align-text-bottom">27</span>
-        </a> -->
-
-        <a class="nav-link" href="home.php">Alle Kategorien</a>
-        <a class="nav-link" href="?kategorie=Party">Party</a>
-        <a class="nav-link" href="?kategorie=Kultur">Kultur</a>
-        <a class="nav-link" href="#">Link</a>
-        <a class="nav-link" href="#">Link</a>
-        <a class="nav-link" href="#">Link</a>
-        <a class="nav-link" href="#">Link</a>
-      </nav>
-    </div>
 
 
- <h2 id="teilnehmen_h2">Deine Teilnahmen</h2> 
+
+ <h2 id="teilnehmen_h2">Deine Teilnahmen</h2>
 <main role="main">
             <?php
               require('connect.php');
               $query = "SELECT * FROM events_test LEFT JOIN teilnahmen ON id = eventid";
               $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 
-              if (mysqli_num_rows($result) > 0) { 
-              	
-              {
-              	$row = $result->fetch_array(MYSQLI_ASSOC);
-                if (!isset($_GET['kategorie'])||$row["kategorie"]===$_GET['kategorie']) {
+              if (mysqli_num_rows($result) > 0) {
+								?>
+								<div id="events" style="width: 80%;" class="mx-auto">
+                <!-- Tabelle mit Events-->
+                <table class='table table-striped'>
+                    <thead class='thead-default'>
+                    <tr>
+                        <th>Event</th>
+                        <th></th>
+                        <th>Datum</th>
+                        <th>Beschreibung</th>
+                        <th>Aktionen</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+								<?php
+								while ($row = mysqli_fetch_assoc($result)) {
+
+
+
 				//  if ($row['userid'] === $_SESSION['userid'] ){
 
                 // strip tags to avoid breaking any html
@@ -133,9 +132,59 @@ if (isset($_POST['kategorie'])) {
                 }
 
                 ?>
-                <div id="events">
+
+            <?php
+
+
+
+
+            	$cache;
+            	$anzeigen;
+            	if ($row['userid'] === $_SESSION['userid'] ){
+                ?>
+
+
+                    <tr>
+                            <td><img src="uploads/<?php echo $row["bild"]; ?>" height="auto" width="200"></td>
+                            <td><?php echo $row["titel"];?>
+                            <td><?php echo $row["datum"]; ?></td>
+                            <td><?php echo $string;?></br>
+                            <?php // $anzeigen="<a id ='detail_button' href='detailview.php?id=2" . $row["eventid"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";?>
+                            <?php // echo $anzeigen?></td>
+                            <td><?php if($row['userid']===NULL){
+                            $cache = "<a href='?teilnehmen=$row[eventid]' class='btn btn-sm btn-outline-success'>Teilnehmen</a>";
+														echo "</tr>";
+								}else {
+									$cache = "<a href='?nichtteilnehmen=$row[eventid]' class='btn btn-sm btn-outline-danger'>Nicht Teilnehmen</a>"."<a id='detail_button' href='detailview.php?id=" . $row["eventid"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";}
+							echo $cache;?>
+
+
+
+
+                       <?php }
+            }?>
+                    </tbody>
+                </table>
+            </div>
+            <?php
+              }else {
+                  echo "Aktuell nimmst du an keinen Events teil";}
+             ?>
+             <!-- Teilnahme Ende -->
+             <!-- Interessen anfang -->
+
+            <h2 id="interessiert_h2">Deine Interessen</h2>
+            <?php
+              //require('connect.php');
+              $query = "SELECT * FROM events_test LEFT JOIN interessen ON id = eventid";
+              $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+
+              if (mysqli_num_rows($result) > 0) {
+
+								?>
+                <div id="events" class="mx-auto" style="width: 80%;">
                 <!-- Tabelle mit Events-->
-                <table class='table'>
+                <table class='table table-striped'>
                     <thead class='thead-default'>
                     <tr>
                         <th>Event</th>
@@ -147,54 +196,11 @@ if (isset($_POST['kategorie'])) {
                     </thead>
                     <tbody>
             <?php
-                }
-              }
-            while ($row = mysqli_fetch_assoc($result)) {
-            	$cache;
-            	$anzeigen;
-            	if ($row['userid'] === $_SESSION['userid'] ){
-                ?>
-                
-                    
-                    <tr>
-                            <td><img src="uploads/<?php echo $row["bild"]; ?>" height="200" width="200"></td>
-                            <td><?php echo $row["titel"];?>
-                            <td><?php echo $row["datum"]; ?></td>
-                            <td><?php echo $string;?></br>
-                            <?php $anzeigen="<a id ='detail_button' href='detailview.php?id=2" . $row["eventid"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";?>
-                            <?php echo $anzeigen?></td>
-                            <td><?php if($row['userid']===NULL){
-                            $cache = "<a href='?teilnehmen=$row[eventid]' class='btn btn-sm btn-outline-success'>Teilnehmen</a>";
-								}else {
-									$cache = "<a href='?nichtteilnehmen=$row[eventid]' class='btn btn-sm btn-outline-danger'>Nicht Teilnehmen</a>";}
-							echo $cache;?>
-									
-									
-                           
-                        </tr>
-                       <?php }
-            }?>
-                    </tbody>
-                </table>
-            </div>
-            <?php 
-              }else {
-                  echo "Aktuell nimmst du an keinen Events teil";}
-             ?>
-             <!-- Teilnahme Ende -->
-             <!-- Interessen anfang -->
-             
-            <h2 id="interessiert_h2">Deine Interessen</h2>
-            <?php
-              require('connect.php');
-              $query = "SELECT * FROM events_test LEFT JOIN interessen ON id = eventid";
-              $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 
-              if (mysqli_num_rows($result) > 0) { 
-              	
-              {
-              	$row = $result->fetch_array(MYSQLI_ASSOC);
-                if (!isset($_GET['kategorie'])||$row["kategorie"]===$_GET['kategorie']) {
+
+								while ($row = mysqli_fetch_assoc($result)) {
+              	//$row = $result->fetch_array(MYSQLI_ASSOC);
+
 
 
                 // strip tags to avoid breaking any html
@@ -211,56 +217,45 @@ if (isset($_POST['kategorie'])) {
                   $string .= ' ...';
                 }
 
+
+
+
+
+
+							//echo $_SESSION['userid'];
+            	//$cache;
+						//	echo "row: " . $row['userid'] . "session:" . $_SESSION['userid'];
+            	if ($row['userid'] === $_SESSION['userid'] ){ //echo $query;
                 ?>
-                <div id="events">
-                <!-- Tabelle mit Events-->
-                <table class='table'>
-                    <thead class='thead-default'>
+
                     <tr>
-                        <th>Event</th>
-                        <th></th>
-                        <th>Datum</th>
-                        <th>Beschreibung</th>
-                        <th>Aktionen</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-            <?php
-                }
-              }
-            while ($row = mysqli_fetch_assoc($result)) {
-            	$cache;
-            	if ($row['userid'] === $_SESSION['userid'] ){
-                ?>
-                    
-                    <tr>
-                            <td><img src="uploads/<?php echo $row["bild"]; ?>" height="200" width="200"></td>
+                            <td><img src="uploads/<?php echo $row["bild"]; ?>" height="auto" width="200"></td>
                             <td><?php echo $row["titel"];?>
                             <td><?php echo $row["datum"]; ?></td>
                             <td><?php echo $string;?></br>
-                            <?php $anzeigen="<a id='detail_button' href='detailview.php?id=2" . $row["eventid"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";?>
-                            <?php echo $anzeigen?></td>
+                            <?php// $anzeigen="<a id='detail_button' href='detailview.php?id=2" . $row["eventid"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";?>
+                            <?php// echo $anzeigen?></td>
                             <td><?php if($row['userid']===NULL){
                             $cache = "<a href='?interessieren=$row[id]' class='btn btn-sm btn-outline-success'>Interessieren</a>";
 								}else {
-									$cache = "<a href='?nichtinteressieren=$row[id]' class='btn btn-sm btn-outline-danger'>Nicht Interessieren</a>";}
+									$cache = "<a href='?nichtinteressieren=$row[id]' class='btn btn-sm btn-outline-danger'>Nicht Interessieren</a>"."<a id='detail_button' href='detailview.php?id=" . $row["eventid"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";}
 							echo $cache;?></br>
-							                          
+
                         </tr>
                         <?php
             	}
                     }
-              
+
                     ?>
                     </tbody>
                 </table>
             </div>
-            <?php 
+            <?php
               }else {
                   echo "Aktuell interessierst du dich nicht für Events";}
              ?>
-               
-              
+
+
 
 
 						 <div class="collapse" id="collapseExample">
@@ -269,7 +264,7 @@ if (isset($_POST['kategorie'])) {
   						</div>
 							</div>
 					</div>
-            
+
 
       <!-- FOOTER -->
       <footer class="container">
@@ -294,4 +289,3 @@ if (isset($_POST['kategorie'])) {
 
   </body>
 </html>
-

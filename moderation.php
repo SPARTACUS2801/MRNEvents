@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * Detaillierte Event-Informationen anzeigen
  */
@@ -13,10 +12,11 @@ if (!isset($_SESSION['username'])) {
 }
 
 if (!isset($_GET['id']) && empty($_GET['id'])) {
-    header('Location: home.php');
+   // header('Location: home.php');
 }
 
 $event_id = $_GET['id'];
+
 
 // Teilnehmerzahl auslesen
 $sql = 'SELECT count(*) FROM teilnahmen WHERE eventid = ?;';
@@ -96,6 +96,7 @@ $event = $result->fetch_array(MYSQLI_ASSOC);
         .container {
             margin-top: 50px;
         }
+
         h1 {
             margin-bottom: 0px;
         }
@@ -120,11 +121,32 @@ $event = $result->fetch_array(MYSQLI_ASSOC);
             <p>Am <b><?php echo date('d.m.Y', strtotime($event['datum'])); ?></b> um
                 <b><?php echo date('H:i', strtotime($event['datum'])); ?></b> Uhr</p>
             <p>Teilnehmer: <?php echo $teilnehmerzahl; ?>, Interessenten: <?php echo $interessentenzahl; ?></p>
+            <?php
+            if ($_SESSION['moderator'] == 1) {
+                $btnfreigeben = 'outline-';
+                $btnnichtfreigeben = 'outline-';
+                if ($event['public'] == 1) {
+                    $btnfreigeben = '';
+                } else if ($event['public'] == 2) {
+                    $btnnichtfreigeben = '';
+                }
+                ?>
+                <div class="btn-group">
+                    <a href="interaktion.php?aktion=freigeben&eventid=<?php echo $event_id; ?>"
+                       class="btn btn-md btn-<?php echo $btnfreigeben; ?>success">Freigeben</a>
+                    <a href="interaktion.php?aktion=nichtfreigeben&eventid=<?php echo $event_id; ?>"
+                       class="btn btn-md btn-<?php echo $btnnichtfreigeben; ?>danger">Ablehnen</a>
+                </div>
+                <?php
+            } else {
+            ?>
             <div class="btn-group">
                 <?php if ($interesse) { ?>
-                    <a href="interaktion.php?aktion=nichtinteressieren&eventid=<?php echo $event_id; ?>" class="btn btn-md btn-outline-secondary">Nicht mehr interessiert</a>
+                    <a href="interaktion.php?aktion=nichtinteressieren&eventid=<?php echo $event_id; ?>"
+                       class="btn btn-md btn-outline-secondary">Nicht mehr interessiert</a>
                 <?php } else { ?>
-                    <a href="interaktion.php?aktion=interessieren&eventid=<?php echo $event_id; ?>" class="btn btn-md btn-outline-primary">Interessieren</a>
+                    <a href="interaktion.php?aktion=interessieren&eventid=<?php echo $event_id; ?>"
+                       class="btn btn-md btn-outline-primary">Interessieren</a>
                 <?php } ?>
                 <input type="hidden" id="eventid" value="<?php echo $event_id; ?>"/>
                 <?php if ($teilnahme) { ?>
@@ -140,6 +162,7 @@ $event = $result->fetch_array(MYSQLI_ASSOC);
                        id="teilnehmen-button">Teilnehmen</a>
                     <?php
                 }
+                } // kein Moderator
                 ?>
             </div>
         </div>

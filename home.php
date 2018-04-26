@@ -29,20 +29,20 @@ if (isset($_GET['nichtinteressieren'])) {
 
 require('connect.php');
 
-$query = "SELECT * FROM events_test LEFT JOIN teilnahmen ON id = eventid";
-if (isset($_COOKIE["query"])) {
-    $result = mysqli_query($connection, $_COOKIE["query"]) or die(mysqli_error($connection));
-} else {
+$query = "SELECT * FROM events_test LEFT JOIN teilnahmen ON id = eventid WHERE public=1";
+//if (isset($_COOKIE["query"])) {
+  //  $result = mysqli_query($connection, $_COOKIE["query"]) or die(mysqli_error($connection));
+//} else {
     $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-}
+//}
 
 
-$clause = " WHERE ";//Initial clause
+$clause = " AND ";//Initial clause
 //$sql="SELECT * FROM `girlsStaff`  ";//Query stub
 //	if(isset($_POST['submit'])){
 if (isset($_POST['kategorie']) || isset($_POST['datumv']) || isset($_POST['datumb'])) {
-  echo $_POST['datumv'];
-  echo $_POST['datumb'];
+//  echo $_POST['datumv'];
+  //echo $_POST['datumb'];
   if(isset($_POST['datumv'])){
     $input_date=$_POST['datumv'];
     $datefrom=date("Y-m-d H:i:s",strtotime($input_date));
@@ -53,7 +53,7 @@ if (isset($_POST['kategorie']) || isset($_POST['datumv']) || isset($_POST['datum
     $input_date2=$_POST['datumb'];
     $dateto=date("Y-m-d H:i:s",strtotime($input_date2));
     $query .= $clause . "datum <= '$dateto'";
-    $clause = " AND ";
+    $clause = " AND (";
   }
 if (isset($_POST['kategorie'])) {
     foreach ($_POST['kategorie'] as $c) {
@@ -61,7 +61,7 @@ if (isset($_POST['kategorie'])) {
             $query .= $clause . "`" . "kategorie" . "` LIKE '%{$c}%'";
             $clause = " OR ";//Change  to OR after 1st WHERE
         }
-    } }
+    } $query .= ")";}
 
     $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
     setcookie("query", $query, time() + 999999);
@@ -81,6 +81,7 @@ if (isset($_POST['kategorie'])) {
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+          <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" type="text/css" media="all" href="style.css"/>
     <link href="carousel.css" rel="stylesheet">
     <link href="offcanvas.css" rel="stylesheet">
@@ -91,35 +92,9 @@ if (isset($_POST['kategorie'])) {
 <header>
     <?php include 'navbar.php'; ?>
 </header>
-
+<!--
 <div class="nav-scroller bg-white box-shadow">
-    <nav class="nav nav-underline">
-
-        <form method="POST">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="kategorie[]" id="party" value="party">
-                <label class="form-check-label" for="party" id="partylabel">Party</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="kategorie[]" id="kunstkultur" value="kultur">
-                <label class="form-check-label" for="kunstkultur" id="kunstkulturlabel">Kunst & Kultur</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="kategorie[]" id="sport" value="sport">
-                <label class="form-check-label" for="sport" id="sportlabel">Sport</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="kategorie[]" id="familie" value="familie">
-                <label class="form-check-label" for="familie" id="familielabel">Familie</label>
-            </div>
-            Von
-            <input type="datetime-local" name="datumv" id="datumv" value="1970-01-01T00:00">
-            Bis
-            <input type="datetime-local" name="datumb" id="datumb" value="2019-12-31T00:00"><br>
-
-            <Button class="btn btn-sm btn-primary btn-block" name
-            "submit" type="submit">Suchen</button>
-        </form>
+    <nav class="nav nav-underline"> -->
 
 
         <!--
@@ -135,9 +110,9 @@ if (isset($_POST['kategorie'])) {
 <a class="nav-link" href="#">Link</a>
 <a class="nav-link" href="#">Link</a>
 <a class="nav-link" href="#">Link</a>
-<a class="nav-link" href="#">Link</a> -->
+<a class="nav-link" href="#">Link</a>
     </nav>
-</div>
+</div>-->
 
 
 <main role="main">
@@ -167,7 +142,7 @@ if (isset($_POST['kategorie'])) {
               <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
               <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
             </div>
-          </div>
+          </div>z
         </div>
         <div class="carousel-item">
           <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
@@ -188,15 +163,93 @@ if (isset($_POST['kategorie'])) {
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
-    </div> -->
+    </div>
+    <form method="POST">
+      <label for="primary" class="btn btn-primary">Primary <input type="checkbox" id="primary" class="badgebox"><span class="badge">&check;</span></label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="kategorie[]" id="party" value="party">
+            <label class="form-check-label" for="party" id="partylabel">Party</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="kategorie[]" id="kunstkultur" value="kultur">
+            <label class="form-check-label" for="kunstkultur" id="kunstkulturlabel">Kunst & Kultur</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="kategorie[]" id="sport" value="sport">
+            <label class="form-check-label" for="sport" id="sportlabel">Sport</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="kategorie[]" id="familie" value="familie">
+            <label class="form-check-label" for="familie" id="familielabel">Familie</label>
+        </div>
+        Von
+        <input type="datetime-local" name="datumv" id="datumv" value="1970-01-01T00:00">
+        Bis
+        <input type="datetime-local" name="datumb" id="datumb" value="2019-12-31T00:00"><br>
+
+        <Button class="btn btn-sm btn-primary btn-block" name
+        "submit" type="submit">Suchen</button>
+      </div>
+    </form>-->
+
+
 
     <div class="album py-5 bg-light">
         <div class="container">
+          <div class"mx-auto" style="width: 100%;">
+          <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Filtern      </button>
+          </p>
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              <form method="POST">
+                <div class="btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-primary" for="party" id="partylabel">
+                    <input autocomplete="off" class="form-check-input" type="checkbox" name="kategorie[]" id="party" value="party"> Party
+                  </label>
+                  <label class="btn btn-primary">
+                    <input class="form-check-input" type="checkbox" name="kategorie[]" id="kunstkultur" value="kultur"> Kultur
+                  </label>
+                  <label class="btn btn-primary">
+                    <input class="form-check-input" type="checkbox" name="kategorie[]" id="sport" value="sport"> Sport
+                  </label>
+                  <label class="btn btn-primary">
+                    <input class="form-check-input" type="checkbox" name="kategorie[]" id="familie" value="familie"> Familie
+                  </label>
 
+<!--
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="kategorie[]" id="party" value="party">
+                      <label class="form-check-label" for="party" id="partylabel">Party</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="kategorie[]" id="kunstkultur" value="kultur">
+                      <label class="form-check-label" for="kunstkultur" id="kunstkulturlabel">Kunst & Kultur</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="kategorie[]" id="sport" value="sport">
+                      <label class="form-check-label" for="sport" id="sportlabel">Sport</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="kategorie[]" id="familie" value="familie">
+                      <label class="form-check-label" for="familie" id="familielabel">Familie</label>
+                  </div> -->
+                  Von
+                  <input type="datetime-local" name="datumv" id="datumv" value="1970-01-01T00:00">
+                  Bis
+                  <input type="datetime-local" name="datumb" id="datumb" value="2019-12-31T00:00"><br>
+                </div>
+                  <Button class="btn btn-sm btn-primary btn-block ml-auto" name
+                  "submit" style="width: 30%;"type="submit">Suchen</button>
+              </form>
+
+          </div>
+          </div>
 
             <div class="row" id="meinerow">
                 <?php
-                echo $query;
+          //      echo $query;
                 /*
 $parameter = "hihi";
                 if (isset($_POST['submit'])||isset($_POST['party']) || isset($_POST['kunstkultur'])||isset($_POST['sport'])||isset($_POST['familie'])){
@@ -233,7 +286,7 @@ echo $parameter; echo $row['kategorie'];
                     <script>
                         var div = document.createElement('div');
                         div.className = "col-md-4";
-                        <?php $cache = "<div class='card mb-4 box-shadow' style='width: 100%;height: 100%;'><h2>$row[titel]</h2><img class='card-img-top' src='uploads/$row[bild]' alt='Card image cap'><div class='card-body'><p class='card-text'>$string</p><div class='d-flex justify-content-between align-items-center'><div class='btn-group'><a href='detailview.php?id=" . $row["id"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";
+                        <?php $cache = "<div class='card mb-4 box-shadow' style='width: 100%;height: 100%;'><h2>$row[titel]</h2><img class='card-img-top' src='uploads/$row[bild]' height='200' width='200' alt='Card image cap'><div class='card-body'><p class='card-text'>$string</p><div class='d-flex justify-content-between align-items-center'><div class='btn-group'><a href='detailview.php?id=" . $row["id"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";
 
                         $cache .= "</div><small class='text-muted'>$row[datum] </small></div></div>";
                         ?>
