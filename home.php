@@ -15,6 +15,16 @@ if (isset($_GET['nichtteilnehmen'])) {
     $query = "DELETE FROM teilnahmen WHERE eventid='$_GET[nichtteilnehmen]' AND userid='$_SESSION[userid]'";
     mysqli_query($connection, $query);// or die(mysqli_error($connection));
 }
+if (isset($_GET['interessieren'])) {
+	require('connect.php');
+	$query = "INSERT INTO interessen (eventid,userid) VALUES (" . $_GET['interessieren'] . "," . $_SESSION['userid'] . ")";
+	mysqli_query($connection, $query);// or die(mysqli_error($connection));
+}
+if (isset($_GET['nichtinteressieren'])) {
+	require('connect.php');
+	$query = "DELETE FROM interessen WHERE eventid='$_GET[nichtinteressieren]' AND userid='$_SESSION[userid]'";
+	mysqli_query($connection, $query);// or die(mysqli_error($connection));
+}
 
 
 require('connect.php');
@@ -202,12 +212,6 @@ echo $parameter; echo $row['kategorie'];
                         var div = document.createElement('div');
                         div.className = "col-md-4";
                         <?php $cache = "<div class='card mb-4 box-shadow' style='width: 100%;height: 100%;'><h2>$row[titel]</h2><img class='card-img-top' src='uploads/$row[bild]' alt='Card image cap'><div class='card-body'><p class='card-text'>$string</p><div class='d-flex justify-content-between align-items-center'><div class='btn-group'><a href='detailview.php?id=" . $row["id"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";
-
-                        if ($row['userid'] === NULL) {
-                            $cache .= "<a href='?teilnehmen=$row[id]' class='btn btn-sm btn-outline-success'>Teilnehmen</a>";
-                        } else {
-                            $cache .= "<a href='?nichtteilnehmen=$row[id]' class='btn btn-sm btn-outline-danger'>Nicht Teilnehmen</a>";
-                        }
 
                         $cache .= "</div><small class='text-muted'>$row[datum] </small></div></div>";
                         ?>

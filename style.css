@@ -28,6 +28,28 @@ body {
     transform: translateX(-1rem); /* Account for horizontal padding on navbar */
   }
 }
+#detail_punkte{
+	color:#000000;
+}
+
+#detail_button{
+	margin-top:60px;
+}
+#teilnehmen_h2 {
+    color: #1E90FF;
+    margin-top: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-align: center;
+}
+#interessiert_h2 {
+	color: #1E90FF;
+	margin-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-align: center;
+	
+}
 
 .nav-scroller {
   position: relative;
