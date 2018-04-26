@@ -4,7 +4,11 @@
 
 
 	//Wenn Formular gepostet wird, dann Daten in DB speichern
-    if (isset($_POST['vorname']) && isset($_POST['password'])){
+	if (isset($_POST['vorname']) && isset($_POST['password']) && strlen($_POST['password']) <= 6) {
+			$fmsg ="Das Passwort muss aus mindestens 7 Zeichen bestehen";
+		}
+
+   else if (isset($_POST['vorname']) && isset($_POST['password'])&& strlen($_POST['password']) > 6 ){
   //    if ($_POST['submit']) {
 
         $vorname = $_POST['vorname'];
@@ -30,6 +34,8 @@
             $fmsg ="User Registration Failed";
         }
     }
+
+
     ?>
 
 <html>
