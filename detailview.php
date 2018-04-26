@@ -12,10 +12,11 @@ if (!isset($_SESSION['username'])) {
 }
 
 if (!isset($_GET['id']) && empty($_GET['id'])) {
-    header('Location: home.php');
+   // header('Location: home.php');
 }
 
 $event_id = $_GET['id'];
+
 
 // Teilnehmerzahl auslesen
 $sql = 'SELECT count(*) FROM teilnahmen WHERE eventid = ?;';

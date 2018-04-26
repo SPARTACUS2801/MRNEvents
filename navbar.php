@@ -11,7 +11,7 @@
 
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="home.php">Mein Profil</a>
+        <a class="nav-link" href="homev2.php">Mein Profil</a>
       </li>
       <li class="nav-item">
           <a class="nav-link" href="?kategorie=Party">Meine Events</a>
