@@ -17,26 +17,6 @@ if (!isset($_GET['id']) && empty($_GET['id'])) {
 
 $event_id = $_GET['id'];
 
-if (isset($_GET['teilnehmen'])) {
-	require('connect.php');
-	$query = "INSERT INTO teilnahmen (eventid,userid) VALUES (" . $_GET['teilnehmen'] . "," . $_SESSION['userid'] . ")";
-	mysqli_query($connection, $query);// or die(mysqli_error($connection));
-}
-if (isset($_GET['nichtteilnehmen'])) {
-	require('connect.php');
-	$query = "DELETE FROM teilnahmen WHERE eventid='$_GET[nichtteilnehmen]' AND userid='$_SESSION[userid]'";
-	mysqli_query($connection, $query);// or die(mysqli_error($connection));
-}
-if (isset($_GET['interessieren'])) {
-	require('connect.php');
-	$query = "INSERT INTO interessen (eventid,userid) VALUES (" . $_GET['interessieren'] . "," . $_SESSION['userid'] . ")";
-	mysqli_query($connection, $query);// or die(mysqli_error($connection));
-}
-if (isset($_GET['nichtinteressieren'])) {
-	require('connect.php');
-	$query = "DELETE FROM interessen WHERE eventid='$_GET[nichtinteressieren]' AND userid='$_SESSION[userid]'";
-	mysqli_query($connection, $query);// or die(mysqli_error($connection));
-}
 
 // Teilnehmerzahl auslesen
 $sql = 'SELECT count(*) FROM teilnahmen WHERE eventid = ?;';
