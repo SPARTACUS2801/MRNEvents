@@ -30,13 +30,29 @@ if (isset($_COOKIE["query"])) {
 $clause = " WHERE ";//Initial clause
 //$sql="SELECT * FROM `girlsStaff`  ";//Query stub
 //	if(isset($_POST['submit'])){
+if (isset($_POST['kategorie']) || isset($_POST['datumv']) || isset($_POST['datumb'])) {
+  echo $_POST['datumv'];
+  echo $_POST['datumb'];
+  if(isset($_POST['datumv'])){
+    $input_date=$_POST['datumv'];
+    $datefrom=date("Y-m-d H:i:s",strtotime($input_date));
+    $query .= $clause . "datum >= '$datefrom'";
+    $clause = " AND ";
+  }
+  if(isset($_POST['datumb'])){
+    $input_date2=$_POST['datumb'];
+    $dateto=date("Y-m-d H:i:s",strtotime($input_date2));
+    $query .= $clause . "datum <= '$dateto'";
+    $clause = " AND ";
+  }
 if (isset($_POST['kategorie'])) {
     foreach ($_POST['kategorie'] as $c) {
         if (!empty($c)) {
             $query .= $clause . "`" . "kategorie" . "` LIKE '%{$c}%'";
             $clause = " OR ";//Change  to OR after 1st WHERE
         }
-    }
+    } }
+
     $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
     setcookie("query", $query, time() + 999999);
 
@@ -86,6 +102,11 @@ if (isset($_POST['kategorie'])) {
                 <input class="form-check-input" type="checkbox" name="kategorie[]" id="familie" value="familie">
                 <label class="form-check-label" for="familie" id="familielabel">Familie</label>
             </div>
+            Von
+            <input type="datetime-local" name="datumv" id="datumv" value="1970-01-01T00:00">
+            Bis
+            <input type="datetime-local" name="datumb" id="datumb" value="2019-12-31T00:00"><br>
+
             <Button class="btn btn-sm btn-primary btn-block" name
             "submit" type="submit">Suchen</button>
         </form>
@@ -165,6 +186,7 @@ if (isset($_POST['kategorie'])) {
 
             <div class="row" id="meinerow">
                 <?php
+                echo $query;
                 /*
 $parameter = "hihi";
                 if (isset($_POST['submit'])||isset($_POST['party']) || isset($_POST['kunstkultur'])||isset($_POST['sport'])||isset($_POST['familie'])){

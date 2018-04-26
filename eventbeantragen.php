@@ -12,9 +12,9 @@ if (array_key_exists('img',$_FILES)) {
         $titel = $_POST['titel'];
 
         $text = $_POST['beschreibung'];
-		
+
 		$kategorie = $_POST['category'];
-		
+
 		$datum = $_POST['datumv'];
 
         $tmpname = $_FILES['img']['tmp_name'];
@@ -30,9 +30,9 @@ if (array_key_exists('img',$_FILES)) {
       //  if (!mysql_query($strQuery)) die(mysql_error());
 
         //$bild = 1;
-		
 
-		
+
+
 
         $query = "INSERT INTO `events_test` (titel,text,bild, datum, kategorie, public) VALUES ('$titel', '$text', '$bild', '$datum', '$kategorie', 0)";
 
@@ -44,7 +44,7 @@ if (array_key_exists('img',$_FILES)) {
             $fmsg ="Event beantragen fehlgeschlagen";
         }
     }
-	
+
 
 
 
@@ -77,7 +77,7 @@ if (array_key_exists('img',$_FILES)) {
               <a class="nav-link" href="home.php">Start <span class="sr-only"></span></a>
 
             </li>
-           
+
 
           </ul>
           <div class="btn-toolbar form-inline my-2 my-lg-0" id="sidebar">
@@ -101,24 +101,24 @@ if (array_key_exists('img',$_FILES)) {
         <h1 class="h3 mb-3 font-weight-normal">Beantragen Sie Ihr eigenes Event!</h1>
         <label for="inputTitel" class="sr-only">Titel</label>
         <input type="text" name="titel" id="inputTitel" style="width:500px;" class="form-control" placeholder="Titel" required autofocus><br>
-		
+
 		<label for="beschreibung" class="sr-only">Beschreibung</label>
 		<textarea name="beschreibung" id="beschreibung" cols="100" rows="5" maxlength="500" required placeholder="Beschreibung"></textarea><br><br>
-		
+
         <select required id="category" name="category">
 		<option selected disabled hidden value="">Kategorie auswählen</option>
-		<option value="Party">Party</option>
-		<option value="Kultur">Kultur</option>
-		<option value="Sport">Sport</option>
+		<option value="party">Party</option>
+		<option value="kultur">Kultur</option>
+		<option value="sport">Sport</option>
 		</select><br><br>
-		
+
 		<label for="datum"> Von</label>
         <input required type="datetime-local" name="datumv" id="datumv"> bis <input type="datetime-local" name="datumb" id="datumb"><br>
 
-		
+
         <label for="fileToUpload"> Hochzuladenden Bilder für die Veranstaltung auswählen</label>
         <input required type="file" accept="image/*" name="fileToUpload" id="fileToUpload" multiple > <br> <br>
-		
+
 		<input type="submit" value="Event beantragen">
 
 
