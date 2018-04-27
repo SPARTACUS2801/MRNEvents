@@ -7,8 +7,8 @@ require_once('connect.php');
 
 session_start();
 // Benutzer eingeloggt
-if (!isset($_SESSION['username'])) {
-    //header('Location: login.php');
+if (!isset($_SESSION['userid']) || $_SESSION['moderator'] == 0) {
+    header('Location: home.php');
 }
 
 if (!isset($_GET['id']) && empty($_GET['id'])) {

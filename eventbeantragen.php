@@ -1,8 +1,8 @@
 <?php
 session_start();
-//if (isset($_SESSION['username'])){
+if (!isset($_SESSION['moderator']) || $_SESSION['moderator'] == 0){
 
-	//header("Location: home.php");}
+	header("Location: home.php");}
 
   require('connect.php');
   //Wenn Formular gepostet wird, dann Daten in DB speichern
@@ -90,10 +90,10 @@ if (array_key_exists('img',$_FILES)) {
 		<option value="sport">Sport</option>
 		</select><br><br>
 
-		<label for="datum"> Von</label>
-        <input required type="datetime-local" name="datumv" id="datumv"> bis <input type="datetime-local" name="datumb" id="datumb"><br>
+		<label for="datum"> Datum und Uhrzeit: </label>
+        <input required type="datetime-local" name="datumv" id="datumv">
 
-
+        <br>
         <label for="fileToUpload"> Hochzuladenden Bilder für die Veranstaltung auswählen</label>
         <input required type="file" accept="image/*" name="fileToUpload" id="fileToUpload" multiple > <br> <br>
 

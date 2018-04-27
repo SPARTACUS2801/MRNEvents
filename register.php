@@ -58,7 +58,7 @@
 
       <?php if(isset($smsg)){ ?><div class="alert alert-success" role="alert"> <?php echo $smsg; ?> </div><?php } ?>	<!--erfolreiche Meldung-->
       <?php if(isset($fmsg)){ ?><div class="alert alert-danger" role="alert"> <?php echo $fmsg; ?> </div><?php } ?>		<!--Meldung bei Misserfolg-->
-        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+          <img class="mb-4" src="logo.png" alt="" width="200" height="auto">
         <h1 class="h3 mb-3 font-weight-normal">Bitte registrieren sie sich</h1>
         <label for="inputVorname" class="sr-only">Vorname</label>
         <input type="text" name="vorname" id="inputVorname" class="form-control" placeholder="Vorname" required autofocus>

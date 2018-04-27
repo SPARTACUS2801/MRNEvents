@@ -58,7 +58,7 @@ if (isset($_SESSION['email'])) {
     <form class="form-signin" method="POST" action="login.php">
         <?php if (isset($fmsg)) { ?>
             <div class="alert alert-danger" role="alert"> <?php echo $fmsg; ?> </div><?php } ?>
-        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <img class="mb-4" src="logo.png" alt="" width="200" height="auto">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required
