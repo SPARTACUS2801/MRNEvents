@@ -155,7 +155,7 @@ if (isset($_POST['kategorie'])) {
                             $cache = "<a href='?teilnehmen=$row[eventid]' class='btn btn-sm btn-outline-success'>Teilnehmen</a>";
 														echo "</tr>";
 								}else {
-									$cache = "<a href='?nichtteilnehmen=$row[eventid]' class='btn btn-sm btn-outline-danger'>Nicht Teilnehmen</a>"."<a id='detail_button' href='detailview.php?id=" . $row["eventid"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";}
+									$cache = "<a href='?nichtteilnehmen=$row[eventid]'class='btn btn-sm btn-outline-danger'>Nicht Teilnehmen</a>"."<a id='detail_button' href='detailview.php?id=" . $row["eventid"] . "' class='btn btn-sm btn-outline-primary'>Anzeigen</a>";}
 							echo $cache;?>
 
 
@@ -267,10 +267,9 @@ if (isset($_POST['kategorie'])) {
 
 
       <!-- FOOTER -->
-      <footer class="container">
-        <p class="float-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2017-2018 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-      </footer>
+			<?php
+			require_once 'footer.php';
+			?>
     </main>
 
     <!-- Bootstrap core JavaScript
